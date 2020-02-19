@@ -372,7 +372,6 @@ while instructions:
                 gates[outputs] = input_a & input_b
                 del instructions[index]
             except (KeyError) as e:
-                # print(e)
                 pass
         elif "OR" in inputs:
             instruction_inputs = inputs.split(" OR ")
@@ -387,7 +386,8 @@ while instructions:
                     input_b = gates[instruction_inputs[1]]
                 gates[outputs] = input_a | input_b
                 del instructions[index]
-            except KeyError:
+            except KeyError as e:
+                
                 pass
         elif "NOT" in inputs:
             instruction_inputs = inputs.split("NOT ")
@@ -399,7 +399,8 @@ while instructions:
 
                 gates[outputs] = 65535 + (~ input_a) + 1
                 del instructions[index]
-            except KeyError:
+            except KeyError as e:
+                
                 pass
         elif "LSHIFT" in inputs:
             instruction_inputs = inputs.split(" LSHIFT ")
@@ -415,7 +416,8 @@ while instructions:
                     
                 gates[outputs] = input_a << input_b
                 del instructions[index]
-            except KeyError:
+            except KeyError as e:
+                
                 pass
         elif "RSHIFT" in inputs:
             instruction_inputs = inputs.split(" RSHIFT ")
@@ -430,7 +432,8 @@ while instructions:
                     input_b = gates[instruction_inputs[1]]
                 gates[outputs] = input_a >> input_b
                 del instructions[index]
-            except KeyError:
+            except KeyError as e:
+                print(e)
                 pass
         else:
             try:
