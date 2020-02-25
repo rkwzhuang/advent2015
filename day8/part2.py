@@ -299,10 +299,18 @@ input_string = r'''"qxfcsmh"
 "wtoodejqmrrgslhvnk\"pi\"ldnogpth"
 "njro\x68qgbx\xe4af\"\\suan"'''
 
+input_string = r'''""
+"abc"
+"aaa\"aaa"
+"\x27"
+"\\"'''
+
 strings = input_string.split("\n")
 num_chars = 0
 for string in strings:
     print(len(string), len(eval(string)))
-    num_chars = num_chars + len(string) - len(eval(string))
+    
+    num_chars = num_chars + len(string.replace("\\\\", "\\\\\\\\").replace('\\"', '\\\\"').replace('"', '\\"').replace("\\x", "\\\\x")) + 2 - len(string) 
+    print(((string.replace("\\\\", "\\\\\\\\").replace('\\"', '\\\\"').replace('"', '\\"').replace("\\x", "\\\\x"))), len(string.replace("\\\\", "\\\\\\\\").replace('\\"', '\\\\"').replace('"', '\\"').replace("\\x", "\\\\x")) + 2)
 
 print(num_chars)
