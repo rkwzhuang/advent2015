@@ -299,18 +299,28 @@ input_string = r'''"qxfcsmh"
 "wtoodejqmrrgslhvnk\"pi\"ldnogpth"
 "njro\x68qgbx\xe4af\"\\suan"'''
 
-input_string = r'''""
-"abc"
-"aaa\"aaa"
-"\x27"
-"\\"'''
+# input_string = r'''""
+# "abc"
+# "aaa\"aaa"
+# "\x27"
+# "\\"'''
+import re 
 
 strings = input_string.split("\n")
 num_chars = 0
+
+backslash_pattern = r"\\"
+quote_pattern = r"\""
+hex_pattern = r"\\x.."
 for string in strings:
-    print(len(string), len(eval(string)))
+    # print(len(string), len(eval(string)))
     
-    num_chars = num_chars + len(string.replace("\\\\", "\\\\\\\\").replace('\\"', '\\\\"').replace('"', '\\"').replace("\\x", "\\\\x")) + 2 - len(string) 
-    print(((string.replace("\\\\", "\\\\\\\\").replace('\\"', '\\\\"').replace('"', '\\"').replace("\\x", "\\\\x"))), len(string.replace("\\\\", "\\\\\\\\").replace('\\"', '\\\\"').replace('"', '\\"').replace("\\x", "\\\\x")) + 2)
+    encoded_string = re.sub(backslash_pattern, "\\\\\\\\", string)
+    encoded_string = re.sub(quote_pattern, "\\\"", encoded_string)
+    encoded_string = re.sub(hex_pattern, "\\\\x..", encoded_string)
+    # need to replace \\, \", \x00 
+    print(encoded_string)
+    num_chars += len(encoded_string) + 2 - len(string)
+    print("encoded:", len(encoded_string) + 2, "original:", len(string))
 
 print(num_chars)
